@@ -5,7 +5,7 @@
 *  (including web sites) or distributed to other students.
 * 
 *  Name: Zhan Wang Student ID: 148668171 Date: January 19, 2021
-*  Heroku Link: 
+*  Heroku Link: https://web422assignment01.herokuapp.com/
 *
 ********************************************************************************/
 const exphbs = require('express-handlebars');
@@ -34,18 +34,25 @@ app.get("/", function(req,res){
 
 //GET All /api/restaurants
 app.get("/api/restaurants",(req, res)=>{
-   let emps =  db.getAllRestaurants(req.params.page, req.params.perPage, req.params.borough);
-    res.json(emps);
+    db.getAllRestaurants(req.query.page, req.query.perPage, req.query.borough)
+        .then((restaurant)=>{
+            res.status(200).json(restaurant)
+        })
+        .catch((err)=>{
+            res.status(400).json(err);
+        });            
 });
 
 //Get One  ie:/api/restaurants/59a47286cfa9a3a73e51e72c This route must accept a route parameter
 app.get("/api/restaurants/:id", (req,res)=>{
-    let o = db.getRestaurantById(req.params.id);
-    if(o){
-        res.json(o);
-    }else{
-        res.status(404).json({"message":"Resource not found! "});
-    }
+    db.getRestaurantById(req.params.id)
+        .then((restaurant)=>{
+            res.status(200).json(restaurant)
+        })
+        .catch((err)=>{
+            res.status(400).json(err);
+        });  
+    
 });
 
 
