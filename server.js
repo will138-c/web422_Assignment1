@@ -59,22 +59,22 @@ app.get("/api/restaurants/:id", (req,res)=>{
 // POST NEW    RESTAURANT
 app.post("api/restaurants", (req,res)=>{
     db.addNewRestaurant(req.body)
-    .then(()=>{
-        res.status(201).json('New restaurant successfully added!');
+    .then((msg)=>{
+        res.status(201).json({message:msg});
     })
     .catch((err)=>{
-        res.status(400).json(err);
+        res.status(500).json({message:`An error occurred: ${err}`});
     });
 });
 
 // PUT UPDATE A RESTAURANT 
 app.put("/api/restaurants/:id", (req,res)=>{
-    db.updateRestaurantById(req.data,req.params.id)
-    .then(()=>{
-        res.status(200).json(`Restaurant ${req.data._id} succesfully updated! `);
+    db.updateRestaurantById(req.body,req.params.id)
+    .then((msg)=>{
+        res.json({message:msg});
     })
     .catch((err)=>{
-        res.status(404).json(err);
+        res.status(404).json({message:`An error occurred: ${err}`});
     });
 });
 
